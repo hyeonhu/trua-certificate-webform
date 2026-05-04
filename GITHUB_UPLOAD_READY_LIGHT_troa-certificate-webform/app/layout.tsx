@@ -1,12 +1,34 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://trua-certificate-webform-20260504.vercel.app";
+const siteTitle = "\uD2B8\uB8E8\uC544 \uB9DE\uCDA4 \uC0C1\uC7A5 \uC81C\uC791";
+const siteDescription =
+  "\uD2B8\uB8E8\uC544 \uC6A9\uB3C8 \uC0C1\uC7A5 \uBB38\uAD6C\uB97C \uC9C1\uC811 \uC791\uC131\uD558\uACE0 \uB9DE\uCDA4 \uC0C1\uC7A5 \uC81C\uC791\uC744 \uC811\uC218\uD558\uC138\uC694.";
+
 export const metadata: Metadata = {
-  title: "트루아 맞춤 상장 제작",
-  description: "트루아 용돈 상장 문구를 직접 작성하고 맞춤 상장 제작을 접수하세요.",
+  metadataBase: new URL(siteUrl),
+  title: siteTitle,
+  description: siteDescription,
   openGraph: {
-    title: "트루아 맞춤 상장 제작",
-    description: "트루아 용돈 상장 문구를 직접 작성하고 맞춤 상장 제작을 접수하세요.",
+    title: siteTitle,
+    description: siteDescription,
+    siteName: "\uD2B8\uB8E8\uC544 \uC6A9\uB3C8 \uC0C1\uC7A5",
+    type: "website",
+    url: siteUrl,
+    images: [
+      {
+        url: "/assets/home-banner-desktop.jpg",
+        width: 1200,
+        height: 630,
+        alt: siteTitle,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: siteTitle,
+    description: siteDescription,
     images: ["/assets/home-banner-desktop.jpg"],
   },
 };

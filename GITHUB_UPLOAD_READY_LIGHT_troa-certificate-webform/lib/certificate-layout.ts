@@ -1,9 +1,30 @@
 import type { CSSProperties } from "react";
 import type { FieldLayout } from "@/lib/types";
 
+const GUNGSEO_FAMILY = '"Gungsuh", "\uAD81\uC11C", "Noto Serif KR", "Noto Sans KR", serif';
+const BATANG_FAMILY = '"Batang", "\uBC14\uD0D5", "Noto Serif KR", "Noto Sans KR", serif';
+const DEFAULT_FAMILY = GUNGSEO_FAMILY;
+
+function appendNotoBeforeGenericSerif(fontFamily: string) {
+  const parts = fontFamily
+    .split(",")
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const withoutGeneric = parts.filter((part) => part.toLowerCase() !== "serif");
+
+  if (!withoutGeneric.some((part) => part.includes("Noto Serif KR"))) {
+    withoutGeneric.push('"Noto Serif KR"');
+  }
+  if (!withoutGeneric.some((part) => part.includes("Noto Sans KR"))) {
+    withoutGeneric.push('"Noto Sans KR"');
+  }
+
+  withoutGeneric.push("serif");
+  return withoutGeneric.join(", ");
+}
+
 export function normalizeFontFamily(raw?: string) {
-  const defaultFamily = '"Gungsuh", "궁서", "Batang", "바탕", "Noto Serif KR", "Noto Sans KR", serif';
-  if (!raw?.trim()) return defaultFamily;
+  if (!raw?.trim()) return DEFAULT_FAMILY;
 
   let cleaned = raw
     .trim()
@@ -17,12 +38,13 @@ export function normalizeFontFamily(raw?: string) {
     cleaned = cleaned.slice(1, -1);
   }
 
-  const hasFallback = cleaned.includes("Noto Serif KR") || cleaned.includes("Noto Sans KR");
-  if (!hasFallback) {
-    cleaned = `${cleaned}, "Noto Serif KR", "Noto Sans KR", serif`;
-  }
+  const wantsGungseo = cleaned.includes("Gungsuh") || cleaned.includes("\uAD81\uC11C");
+  if (wantsGungseo) return GUNGSEO_FAMILY;
 
-  return cleaned;
+  const wantsBatang = cleaned.includes("Batang") || cleaned.includes("\uBC14\uD0D5");
+  if (wantsBatang) return BATANG_FAMILY;
+
+  return appendNotoBeforeGenericSerif(cleaned);
 }
 
 export function verticalAlignToJustifyContent(verticalAlign?: FieldLayout["verticalAlign"]) {

@@ -4,39 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "CustomCertificate";
-  src: url("/fonts/certificate.woff2") format("woff2");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "TROA-Certificate";
-  src: url("/fonts/NotoSerifKR-VF.ttf") format("truetype");
-  font-weight: 100 900;
-  font-display: block;
-}
-
-@font-face {
-  font-family: "Noto Serif KR";
-  src: url("/fonts/NotoSerifKR-VF.ttf") format("truetype");
-  font-weight: 100 900;
-  font-display: block;
-}
-
-@font-face {
-  font-family: "Batang";
-  src: url("/fonts/Batang.ttc") format("truetype");
-  font-display: block;
-}
-
-@font-face {
-  font-family: "Noto Sans KR";
-  src: url("/fonts/NotoSansKR-VF.ttf") format("truetype");
-  font-weight: 100 900;
-  font-display: block;
-}
-
 :root {
   color-scheme: light;
 }
