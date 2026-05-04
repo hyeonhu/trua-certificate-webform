@@ -32,7 +32,7 @@ export function ReviewClient({ initialConfig }: { initialConfig: TemplateConfig 
   const submit = async () => {
     if (!data) return;
     setStatus("submitting");
-    setMessage("입력하신 내용을 접수 중입니다. 접수 후 기존 구글 자동화에서 PDF 제작과 이메일 발송을 진행합니다.");
+    setMessage("입력하신 내용을 접수중입니다.");
 
     const response = await fetch("/api/orders/finalize", {
       method: "POST",
@@ -56,7 +56,7 @@ export function ReviewClient({ initialConfig }: { initialConfig: TemplateConfig 
     }
 
     setStatus("done");
-    setMessage(result.webhookStatus === "sent" ? "접수가 완료되었습니다. 입력하신 이메일로 완성 파일이 발송될 예정입니다." : result.message ?? "개발 모드 접수가 완료되었습니다.");
+    setMessage(result.webhookStatus === "sent" ? "접수가 완료되었습니다. 이메일로 완성 파일이 발송됩니다." : result.message ?? "접수가 완료되었습니다. 이메일로 완성 파일이 발송됩니다.");
   };
 
   if (!data) return <main className="p-6">검수 데이터를 불러오는 중입니다.</main>;
@@ -70,7 +70,7 @@ export function ReviewClient({ initialConfig }: { initialConfig: TemplateConfig 
               <div className="text-xs font-bold uppercase tracking-wide text-amber-700">Final Review</div>
               <h1 className="mt-1 text-2xl font-black">최종 검수</h1>
               <p className="mt-2 text-base leading-7 text-stone-700">
-                아래 미리보기는 위치 확인용입니다. 제출하면 입력값이 스프레드시트로 저장되고, 기존 구글 자동화에서 PDF 제작과 이메일 발송을 진행합니다.
+                아래 미리보기는 위치 확인용입니다. 내용을 확인한 뒤 제출하면 완성 파일이 이메일로 발송됩니다.
               </p>
             </div>
             <div className="hidden flex-wrap gap-2 lg:flex">
@@ -84,15 +84,11 @@ export function ReviewClient({ initialConfig }: { initialConfig: TemplateConfig 
           </div>
         </header>
 
-        <section className="mb-3 grid gap-3 lg:mb-4 lg:grid-cols-[1fr_1fr]">
+        <section className="mb-3 grid gap-3 lg:mb-4">
           <div className="rounded-md border border-amber-300 bg-amber-50 p-4">
             <div className="text-sm font-bold text-amber-900">이메일 확인</div>
             <div className="mt-1 break-all text-xl font-bold text-stone-950">{data.email}</div>
             <p className="mt-2 text-base leading-7 text-stone-700">완성된 상장 PDF를 받을 이메일입니다.</p>
-          </div>
-          <div className="rounded-md border border-stone-300 bg-white p-4">
-            <div className="text-sm font-bold">접수 안내</div>
-            <p className="mt-2 text-base leading-7 text-stone-700">제출 후에는 기존 구글 자동화가 스프레드시트 내용을 기준으로 PDF를 제작합니다.</p>
           </div>
         </section>
 
