@@ -1,0 +1,84 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700;900&family=Noto+Serif+KR:wght@400;500;600;700;900&display=block");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "CustomCertificate";
+  src: url("/fonts/certificate.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "TROA-Certificate";
+  src: url("/fonts/NotoSerifKR-VF.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Noto Serif KR";
+  src: url("/fonts/NotoSerifKR-VF.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Batang";
+  src: url("/fonts/Batang.ttc") format("truetype");
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Noto Sans KR";
+  src: url("/fonts/NotoSansKR-VF.ttf") format("truetype");
+  font-weight: 100 900;
+  font-display: block;
+}
+
+:root {
+  color-scheme: light;
+}
+
+html,
+body {
+  min-height: 100%;
+  background: #f6f3ee;
+  color: #26211b;
+}
+
+body {
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+textarea,
+input,
+button,
+select {
+  font: inherit;
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+.certificate-page {
+  width: 210mm;
+  height: 297mm;
+  position: relative;
+  overflow: hidden;
+  background: white;
+  color: #14100b;
+}
+
+.certificate-print-root {
+  width: 210mm;
+  min-height: 297mm;
+  background: white;
+}
