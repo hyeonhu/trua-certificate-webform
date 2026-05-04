@@ -2,8 +2,8 @@ import type { CSSProperties } from "react";
 import type { FieldLayout } from "@/lib/types";
 
 export function normalizeFontFamily(raw?: string) {
-  const webFallback = '"TROA-Certificate", "Noto Serif KR", "Noto Sans KR", serif';
-  if (!raw?.trim()) return webFallback;
+  const defaultFamily = '"Gungsuh", "궁서", "Batang", "바탕", "Noto Serif KR", "Noto Sans KR", serif';
+  if (!raw?.trim()) return defaultFamily;
 
   let cleaned = raw
     .trim()
@@ -17,19 +17,9 @@ export function normalizeFontFamily(raw?: string) {
     cleaned = cleaned.slice(1, -1);
   }
 
-  const hasKnownWebFont = cleaned.includes("TROA-Certificate") || cleaned.includes("Noto Serif KR") || cleaned.includes("Noto Sans KR");
-  const wantsUnavailableKoreanFont =
-    cleaned.includes("Gungsuh") ||
-    cleaned.includes("궁서") ||
-    cleaned.includes("Batang") ||
-    cleaned.includes("바탕") ||
-    cleaned.includes("沅곸꽌") ||
-    cleaned.includes("諛뷀깢");
-
-  if (wantsUnavailableKoreanFont && !hasKnownWebFont) {
-    cleaned = `"TROA-Certificate", "Noto Serif KR", ${cleaned}`;
-  } else if (!hasKnownWebFont) {
-    cleaned = `${cleaned}, ${webFallback}`;
+  const hasFallback = cleaned.includes("Noto Serif KR") || cleaned.includes("Noto Sans KR");
+  if (!hasFallback) {
+    cleaned = `${cleaned}, "Noto Serif KR", "Noto Sans KR", serif`;
   }
 
   return cleaned;

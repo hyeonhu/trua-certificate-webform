@@ -35,6 +35,7 @@ export function CustomerEditor({ initialConfig, siteConfig }: { initialConfig: T
   const [hydrated, setHydrated] = useState(false);
   const [showPolicy, setShowPolicy] = useState(false);
   const [guidePopupStep, setGuidePopupStep] = useState<FlowStep | null>(null);
+  const [showMobileFontNotice, setShowMobileFontNotice] = useState(false);
 
   const steps = useMemo(() => siteConfig.create.steps as FlowStep[], [siteConfig.create.steps]);
   const flowSteps = useMemo(() => steps.filter((step) => step.key !== "autoSpacing"), [steps]);
@@ -45,6 +46,9 @@ export function CustomerEditor({ initialConfig, siteConfig }: { initialConfig: T
   useEffect(() => {
     const saved = window.localStorage.getItem("certificate-form");
     if (saved) setData({ ...EMPTY_FORM, ...JSON.parse(saved) });
+    if (isMobileViewport() && window.sessionStorage.getItem("mobile-font-notice-seen") !== "1") {
+      setShowMobileFontNotice(true);
+    }
     setHydrated(true);
   }, []);
 
@@ -398,6 +402,30 @@ export function CustomerEditor({ initialConfig, siteConfig }: { initialConfig: T
           {renderActionButton()}
         </div>
       </div>
+
+      {showMobileFontNotice && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 p-4 lg:hidden">
+          <section className="w-full max-w-sm rounded-md bg-white p-5 shadow-xl">
+            <div className="text-xs font-bold uppercase tracking-wide text-amber-700">FONT NOTICE</div>
+            <h2 className="mt-1 text-2xl font-black">모바일 서체 안내</h2>
+            <div className="mt-3 space-y-2 text-base leading-7 text-stone-800">
+              <p>모바일 기기에서는 상장 미리보기의 궁서체가 완전히 동일하게 보이지 않을 수 있습니다.</p>
+              <p>더 정확한 위치와 서체 느낌을 확인하려면 PC에서 제작하시는 것을 권장드립니다.</p>
+              <p className="font-bold text-stone-950">최종 PDF는 기존 자동화 기준의 궁서 폰트로 제작됩니다.</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => {
+                window.sessionStorage.setItem("mobile-font-notice-seen", "1");
+                setShowMobileFontNotice(false);
+              }}
+              className="mt-5 w-full rounded-md bg-stone-950 px-4 py-3 font-bold text-white"
+            >
+              확인했습니다
+            </button>
+          </section>
+        </div>
+      )}
 
       {guidePopupStep && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 lg:hidden">
