@@ -6,24 +6,27 @@ import type { FieldLayout, TemplateConfig, TemplateVariantConfig } from "@/lib/t
 
 const dataDir = path.join(process.cwd(), "data");
 const configPath = path.join(dataDir, "template-config.json");
+const isReadonlyDeployment = process.env.VERCEL === "1";
 
 export async function ensureDataDirs() {
+  if (isReadonlyDeployment) return;
   await fs.mkdir(path.join(dataDir, "orders"), { recursive: true });
   await fs.mkdir(path.join(dataDir, "generated"), { recursive: true });
 }
 
 export async function getTemplateConfig(): Promise<TemplateConfig> {
-  await ensureDataDirs();
   try {
     const raw = await fs.readFile(configPath, "utf8");
     return mergeTemplateConfig(JSON.parse(raw) as Partial<TemplateConfig>);
   } catch {
-    await saveTemplateConfig(DEFAULT_TEMPLATE_CONFIG);
     return DEFAULT_TEMPLATE_CONFIG;
   }
 }
 
 export async function saveTemplateConfig(config: TemplateConfig): Promise<TemplateConfig> {
+  if (isReadonlyDeployment) {
+    throw new Error("Vercel 무료 배포에서는 관리자 저장이 유지되지 않습니다. 로컬에서 수정 후 data/template-config.json을 다시 업로드해주세요.");
+  }
   await ensureDataDirs();
   const next: TemplateConfig = {
     ...config,
