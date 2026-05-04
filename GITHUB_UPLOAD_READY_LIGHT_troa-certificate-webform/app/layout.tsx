@@ -5,6 +5,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://trua-certificate-we
 const siteTitle = "\uD2B8\uB8E8\uC544 \uB9DE\uCDA4 \uC0C1\uC7A5 \uC81C\uC791";
 const siteDescription =
   "\uD2B8\uB8E8\uC544 \uC6A9\uB3C8 \uC0C1\uC7A5 \uBB38\uAD6C\uB97C \uC9C1\uC811 \uC791\uC131\uD558\uACE0 \uB9DE\uCDA4 \uC0C1\uC7A5 \uC81C\uC791\uC744 \uC811\uC218\uD558\uC138\uC694.";
+const previewImage = "/assets/link-preview.jpg";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -18,9 +19,9 @@ export const metadata: Metadata = {
     url: siteUrl,
     images: [
       {
-        url: "/assets/home-banner-desktop.jpg",
-        width: 1200,
-        height: 630,
+        url: previewImage,
+        width: 1600,
+        height: 1600,
         alt: siteTitle,
       },
     ],
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: siteTitle,
     description: siteDescription,
-    images: ["/assets/home-banner-desktop.jpg"],
+    images: [previewImage],
   },
 };
 

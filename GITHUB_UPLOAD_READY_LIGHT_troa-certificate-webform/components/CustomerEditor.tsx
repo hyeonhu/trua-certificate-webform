@@ -36,6 +36,7 @@ export function CustomerEditor({ initialConfig, siteConfig }: { initialConfig: T
   const [showPolicy, setShowPolicy] = useState(false);
   const [guidePopupStep, setGuidePopupStep] = useState<FlowStep | null>(null);
   const [showMobileFontNotice, setShowMobileFontNotice] = useState(false);
+  const [showMobileGuide, setShowMobileGuide] = useState(false);
 
   const steps = useMemo(() => siteConfig.create.steps as FlowStep[], [siteConfig.create.steps]);
   const flowSteps = useMemo(() => steps.filter((step) => step.key !== "autoSpacing"), [steps]);
@@ -61,6 +62,7 @@ export function CustomerEditor({ initialConfig, siteConfig }: { initialConfig: T
     const key = currentStep?.key;
     if (key && isFieldKey(key)) setActiveField(key);
     else setActiveField(undefined);
+    setShowMobileGuide(false);
   }, [currentStep?.key]);
 
   const errorFields = useMemo(() => new Set(errors.map((error) => error.field).concat(overflows.map((item) => item.field))), [errors, overflows]);
@@ -380,6 +382,29 @@ export function CustomerEditor({ initialConfig, siteConfig }: { initialConfig: T
             </ol>
           </div>
         </aside>
+      </div>
+
+      <div className="fixed inset-x-0 bottom-[116px] z-30 px-3 lg:hidden">
+        <section className="mx-auto max-w-md rounded-md border border-amber-300 bg-amber-50/95 shadow-lg backdrop-blur">
+          <button
+            type="button"
+            onClick={() => setShowMobileGuide((prev) => !prev)}
+            className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+          >
+            <span>
+              <span className="block text-xs font-bold uppercase tracking-wide text-amber-800">GUIDE</span>
+              <span className="block text-base font-black text-stone-950">{currentStep.title}</span>
+            </span>
+            <span className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-bold text-stone-700">
+              {showMobileGuide ? "접기" : "설명 보기"}
+            </span>
+          </button>
+          {showMobileGuide && (
+            <div className="border-t border-amber-200 px-4 pb-4 text-base leading-7 text-stone-900">
+              <p className="whitespace-pre-line">{currentStep.description}</p>
+            </div>
+          )}
+        </section>
       </div>
 
       <div className="fixed inset-x-0 bottom-0 z-40 border-t border-stone-300 bg-white/95 p-3 shadow-2xl lg:hidden">
